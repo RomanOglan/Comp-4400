@@ -61,10 +61,15 @@ int main(int argc, char* argv[]) {
 
     for(int i = 0; i < M; i++){
         for(int j = 0; j < N; j++){
-            if(i < 5 || i > 250 || j < 5 || j > 250){
+            if(i < 1 || i > 254 || j < 1 || j > 254){
                 
-                temp[i][j] = 0;
-
+                if(i < 254 && 120 <= j && j <= 136){
+                    temp[i][j] = 100;
+                }
+                else{
+                    temp[i][j] = 0;
+                }
+                
                 std::array<double, 3> colors = TempaturetoColor(temp[i][j]);
 
                 img.data[i * img.step[0] + j * img.step[1]     ] = colors[0]; // blue = 0
