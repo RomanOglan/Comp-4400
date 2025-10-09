@@ -1,6 +1,3 @@
-//Name: Roman Oglan
-//Student Number: 110106040
-
 #include <opencv2/core.hpp>
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/highgui.hpp>
