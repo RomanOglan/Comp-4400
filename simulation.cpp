@@ -7,7 +7,7 @@
 using namespace cv;
 
 
-//Converting a single tempature value into 3 (Red, Green and Blue) color values
+//Converting a single tempature value into 3 (Blue, Red, Green) color values
 std::array<double, 3> TempaturetoColor(double temp) {
     double minTemp = -20;
     double maxTemp = 100;
@@ -62,13 +62,16 @@ int main(int argc, char* argv[]) {
             if(i==0 || i == M - 1 || j ==0 || j ==  N - 1 ){
                 if (i == 0 && (j >= (N / 2 - 5) && j <= (N / 2 + 5))) {
                     temp[i][j] = 100;
+                    //setting tempature for the heater
                 }
                 else{
                     temp[i][j] = -20;
+                    //setting tempature for the room
                 }
             }
             else{
-                    temp[i][j] = 20;    
+                    temp[i][j] = 20; 
+                    //setting tempature for the walls   
             }
 
             std::array<double, 3> colors = TempaturetoColor(temp[i][j]);
@@ -81,23 +84,25 @@ int main(int argc, char* argv[]) {
     }
     
     imshow("color display", img);
-    printf("Press any key to terminate the program.\n");
-
 
     while (true) {
         int key = waitKey(1);
         if (key >= 0) break; 
+
+        //checking to see if we have reached the minium epsilon 
         if (highestDiff < 0.01) break;
         highestDiff = 0;
 
         std::vector<std::vector<double>> newTemp = temp;
-        
+
+        //calculating new tempatures for each cell in our image
         for (int i = 1; i < M - 1; i++) {
             for (int j = 1; j < N - 1; j++) {
                 if (i == M - 1 && (j >= (N / 2 - 5) && j <= (N / 2 + 5))) continue; //making sure not to change tempature of heater
 
                 newTemp[i][j] = (temp[i+1][j] + temp[i-1][j] + temp[i][j+1] + temp[i][j-1]) / 4.0;
                 
+                //checking for the highest difference in this iteration
                 currentDiff = abs(newTemp[i][j] - temp[i][j]);
                 if(currentDiff > highestDiff) highestDiff = currentDiff;
                 
@@ -107,6 +112,7 @@ int main(int argc, char* argv[]) {
         
         temp = newTemp;
     
+        //printing our new image with new tempatures.
         for (int i = 0; i < M; i++) {
             for (int j = 0; j < N; j++) {
                 auto colors = TempaturetoColor(temp[i][j]);
