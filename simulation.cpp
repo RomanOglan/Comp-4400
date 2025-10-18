@@ -65,12 +65,12 @@ int main(int argc, char* argv[]) {
                     //setting tempature for the heater
                 }
                 else{
-                    temp[i][j] = -20;
+                    temp[i][j] = 20;
                     //setting tempature for the room
                 }
             }
             else{
-                    temp[i][j] = 20; 
+                    temp[i][j] = -20; 
                     //setting tempature for the walls   
             }
 
